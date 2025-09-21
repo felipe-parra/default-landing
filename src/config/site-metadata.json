@@ -1,0 +1,174 @@
+{
+  "site": {
+    "name": "Default Landing",
+    "title": "Default Landing - Modern Web Solutions",
+    "description": "A modern landing page built with Next.js, Clerk authentication, and Tailwind CSS",
+    "url": "https://defaultlanding.com",
+    "keywords": ["Next.js", "React", "Clerk", "Tailwind CSS", "Landing Page"],
+    "author": "Xilo Labs",
+    "email": "contact@defaultlanding.com",
+    "language": "en",
+    "ogImage": "/og-image.png",
+    "favicon": "/favicon.ico"
+  },
+  "navigation": {
+    "header": {
+      "signIn": {
+        "text": "Sign In",
+        "href": "/sign-in"
+      },
+      "signUp": {
+        "text": "Sign Up",
+        "href": "/sign-up"
+      },
+      "dashboard": {
+        "text": "Dashboard",
+        "href": "/dashboard"
+      }
+    },
+    "footer": {
+      "company": {
+        "name": "Xilo Labs",
+        "description": "Building modern web solutions"
+      },
+      "links": {
+        "privacy": {
+          "text": "Privacy Policy",
+          "href": "/privacy"
+        },
+        "terms": {
+          "text": "Terms of Service",
+          "href": "/terms"
+        },
+        "contact": {
+          "text": "Contact",
+          "href": "/contact"
+        }
+      },
+      "social": {
+        "twitter": {
+          "text": "Twitter",
+          "href": "https://twitter.com/xilolabs"
+        },
+        "github": {
+          "text": "GitHub",
+          "href": "https://github.com/xilolabs"
+        },
+        "linkedin": {
+          "text": "LinkedIn",
+          "href": "https://linkedin.com/company/xilolabs"
+        }
+      }
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Welcome to Default Landing",
+      "description": "Build your next project with our modern stack",
+      "hero": {
+        "headline": "Build Something Amazing",
+        "subheadline": "Modern web solutions with Next.js, Clerk, and Tailwind CSS",
+        "ctaButton": {
+          "text": "Get Started",
+          "href": "/sign-up"
+        },
+        "secondaryButton": {
+          "text": "Learn More",
+          "href": "#features"
+        }
+      },
+      "features": {
+        "title": "Why Choose Us",
+        "subtitle": "Everything you need to build modern web applications",
+        "items": [
+          {
+            "title": "Fast Development",
+            "description": "Built with Next.js for optimal performance and developer experience",
+            "icon": "⚡"
+          },
+          {
+            "title": "Secure Authentication",
+            "description": "Clerk integration for secure user management and authentication",
+            "icon": "🔒"
+          },
+          {
+            "title": "Beautiful Design",
+            "description": "Tailwind CSS for beautiful, responsive designs out of the box",
+            "icon": "🎨"
+          },
+          {
+            "title": "Type Safe",
+            "description": "Full TypeScript support for better code quality and maintenance",
+            "icon": "📝"
+          }
+        ]
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Your personal dashboard",
+      "welcome": {
+        "title": "Welcome back!",
+        "subtitle": "Here's what's happening with your account"
+      }
+    },
+    "auth": {
+      "signIn": {
+        "title": "Sign In",
+        "description": "Sign in to your account"
+      },
+      "signUp": {
+        "title": "Create Account",
+        "description": "Create a new account to get started"
+      }
+    }
+  },
+  "components": {
+    "buttons": {
+      "getStarted": "Get Started",
+      "learnMore": "Learn More",
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "dashboard": "Dashboard",
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Sign Out"
+    },
+    "forms": {
+      "labels": {
+        "email": "Email",
+        "password": "Password",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "confirmPassword": "Confirm Password"
+      },
+      "placeholders": {
+        "email": "Enter your email",
+        "password": "Enter your password",
+        "firstName": "Enter your first name",
+        "lastName": "Enter your last name"
+      },
+      "validation": {
+        "required": "This field is required",
+        "emailInvalid": "Please enter a valid email",
+        "passwordTooShort": "Password must be at least 8 characters",
+        "passwordsDoNotMatch": "Passwords do not match"
+      }
+    },
+    "loading": {
+      "text": "Loading...",
+      "pleaseWait": "Please wait..."
+    },
+    "errors": {
+      "general": "Something went wrong. Please try again.",
+      "network": "Network error. Please check your connection.",
+      "unauthorized": "You are not authorized to access this resource.",
+      "notFound": "The requested resource was not found."
+    }
+  },
+  "legal": {
+    "copyright": "© 2024 Xilo Labs. All rights reserved.",
+    "privacyLastUpdated": "Last updated: January 2024",
+    "termsLastUpdated": "Last updated: January 2024"
+  }
+}

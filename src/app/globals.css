@@ -1,8 +1,15 @@
 @import "tailwindcss";
+/* import Konsta UI theme */
+@import "konsta/react/theme.css";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+:root.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -13,7 +20,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.dark) {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
