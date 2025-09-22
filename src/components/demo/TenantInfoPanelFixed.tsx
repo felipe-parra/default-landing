@@ -47,9 +47,9 @@ export default function TenantInfoPanelFixed({ orgId, token }: TenantInfoPanelFi
           setTenant(data)
           setError(null)
         }
-      } catch (e: any) {
-        if (!cancelled && e?.name !== 'AbortError') {
-          setError(e?.message ?? 'Network error')
+      } catch (e: unknown) {
+        if (!cancelled && (!(e instanceof Error) || e.name !== 'AbortError')) {
+          setError(e instanceof Error ? e.message : 'Network error')
         }
       } finally {
         inFlight.current = false

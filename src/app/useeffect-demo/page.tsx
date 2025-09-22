@@ -50,7 +50,7 @@ export default function UseEffectDemoPage() {
         <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded">
           <h3 className="font-semibold text-yellow-800 mb-2">Instructions:</h3>
           <ul className="text-yellow-700 space-y-1">
-            <li>• Open your browser's Network tab to see the difference</li>
+            <li>• Open your browser&apos;s Network tab to see the difference</li>
             <li>• The BUG version keeps fetching on every render</li>
             <li>• The FIX version only fetches when necessary</li>
             <li>• Use react-scan with: <code className="bg-yellow-100 px-1 rounded">npx react-scan@latest</code></li>

@@ -16,6 +16,7 @@ export default function TenantInfoPanelBug({ orgId, token }: TenantInfoPanelBugP
 
   // ❌ BUG: "options" is a fresh object on every render.
   // Adding it to deps guarantees the effect re-runs even if orgId/token didn't change.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const options = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -37,9 +38,9 @@ export default function TenantInfoPanelBug({ orgId, token }: TenantInfoPanelBugP
           setTenant(data)
           setError(null)
         }
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (!cancelled) {
-          setError(e?.message ?? 'Network error')
+          setError(e instanceof Error ? e.message : 'Network error')
         }
       }
     }
