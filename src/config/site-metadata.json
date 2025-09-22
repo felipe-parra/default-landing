@@ -24,6 +24,10 @@
       "dashboard": {
         "text": "Dashboard",
         "href": "/dashboard"
+      },
+      "useEffectDemo": {
+        "text": "useEffect Demo",
+        "href": "/useeffect-demo"
       }
     },
     "footer": {
