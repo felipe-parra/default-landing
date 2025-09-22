@@ -17,10 +17,10 @@ const getBeersStore = (): Beer[] => {
 // GET /api/beers/[id] - Get a specific beer
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
 
     // Validate UUID format
     const uuidSchema = z.string().uuid()
@@ -54,10 +54,10 @@ export async function GET(
 // PUT /api/beers/[id] - Update a specific beer
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
 
     // Validate the update data
@@ -104,10 +104,10 @@ export async function PUT(
 // DELETE /api/beers/[id] - Delete a specific beer
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
 
     // Validate UUID format
     const uuidSchema = z.string().uuid()

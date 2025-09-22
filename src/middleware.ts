@@ -7,6 +7,7 @@ const privateRoutes = [
   "/profile",
   "/settings",
   "/admin",
+  "/alphabet",
   "/api/protected",
 ]
 

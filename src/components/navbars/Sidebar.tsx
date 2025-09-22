@@ -6,6 +6,7 @@ import { BiUser } from "react-icons/bi"
 
 import { CloseSidebarButton } from "../buttons/CloseSidebarButton"
 import { LogoutButton } from "../buttons/LogoutButton"
+import { BsAlphabet } from "react-icons/bs"
 
 interface SidebarProps {
   panelOpened: boolean
@@ -45,7 +46,10 @@ export const Sidebar = ({ panelOpened, setPanelOpened }: SidebarProps) => {
             </p>
           </SignedOut>
           <SignedIn>
-            <Block>
+            <Block className="space-y-4 grid grid-cols-1 self-start text-left w-full">
+              <Link  onClick={() => setPanelOpened(false)}>
+                <BsAlphabet /> Alphabet
+              </Link>
               <Link onClick={() => setPanelOpened(false)}>
                 <BiUser /> Profile
               </Link>
