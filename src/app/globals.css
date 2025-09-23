@@ -12,6 +12,12 @@
   --foreground: #ededed;
 }
 
+@theme {
+  --color-brand-primary: #007aff;
+  --color-brand-red: #ff0000;
+  --color-brand-green: #00ff00;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
