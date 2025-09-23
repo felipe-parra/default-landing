@@ -1,6 +1,7 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
+import { Card } from "konsta/react"
 
 type Tenant = { id: string; name: string }
 
@@ -9,7 +10,10 @@ interface TenantInfoPanelBugProps {
   token: string
 }
 
-export default function TenantInfoPanelBug({ orgId, token }: TenantInfoPanelBugProps) {
+export default function TenantInfoPanelBug({
+  orgId,
+  token,
+}: Readonly<TenantInfoPanelBugProps>) {
   const [tenant, setTenant] = useState<Tenant | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [requestCount, setRequestCount] = useState(0)
@@ -20,8 +24,8 @@ export default function TenantInfoPanelBug({ orgId, token }: TenantInfoPanelBugP
   const options = {
     headers: {
       Authorization: `Bearer ${token}`,
-      'X-Request-Source': 'dashboard'
-    }
+      "X-Request-Source": "dashboard",
+    },
   }
 
   useEffect(() => {
@@ -31,7 +35,7 @@ export default function TenantInfoPanelBug({ orgId, token }: TenantInfoPanelBugP
       setRequestCount(prev => prev + 1)
 
       try {
-        const res = await fetch('/api/tenant', options)
+        const res = await fetch("/api/tenant", options)
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         const data = (await res.json()) as Tenant
         if (!cancelled) {
@@ -40,7 +44,7 @@ export default function TenantInfoPanelBug({ orgId, token }: TenantInfoPanelBugP
         }
       } catch (e: unknown) {
         if (!cancelled) {
-          setError(e instanceof Error ? e.message : 'Network error')
+          setError(e instanceof Error ? e.message : "Network error")
         }
       }
     }
@@ -54,10 +58,12 @@ export default function TenantInfoPanelBug({ orgId, token }: TenantInfoPanelBugP
   }, [orgId, options]) // ⚠️ 'options' is always "new"
 
   return (
-    <section className="border-2 border-red-300 p-4 rounded-lg bg-red-50">
+    <Card className="border-2 border-red-600 p-4 rounded-lg bg-red-50">
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-lg font-semibold text-red-800">Tenant Info (BUG)</h3>
-        <div className="text-sm font-mono bg-red-200 px-2 py-1 rounded">
+        <h3 className="text-lg font-semibold text-red-800">
+          Tenant Info (BUG)
+        </h3>
+        <div className="text-sm font-mono bg-red-500 px-2 py-1 rounded">
           Requests: {requestCount}
         </div>
       </div>
@@ -69,7 +75,7 @@ export default function TenantInfoPanelBug({ orgId, token }: TenantInfoPanelBugP
       )}
 
       {tenant ? (
-        <pre className="bg-gray-100 p-3 rounded text-sm overflow-auto">
+        <pre className="bg-gray-600 p-3 rounded text-sm overflow-auto">
           {JSON.stringify(tenant, null, 2)}
         </pre>
       ) : (
@@ -79,6 +85,6 @@ export default function TenantInfoPanelBug({ orgId, token }: TenantInfoPanelBugP
       <div className="mt-3 text-xs text-red-600">
         ⚠️ This component has an unstable dependency causing infinite re-renders
       </div>
-    </section>
+    </Card>
   )
 }
