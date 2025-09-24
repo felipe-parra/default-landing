@@ -32,7 +32,7 @@ export default function TenantInfoPanelFixed({
     const controller = new AbortController()
     let cancelled = false
 
-    ;(async () => {
+    const fetchTenant = async () => {
       setRequestCount(prev => prev + 1)
 
       try {
@@ -56,7 +56,9 @@ export default function TenantInfoPanelFixed({
       } finally {
         isLoading.current = false
       }
-    })()
+    }
+
+    fetchTenant()
 
     return () => {
       cancelled = true
