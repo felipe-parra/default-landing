@@ -15,19 +15,27 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.43",
+    "@ai-sdk/react": "^2.0.60",
     "@clerk/nextjs": "^6.32.0",
+    "@hookform/resolvers": "^5.2.2",
     "@playwright/test": "^1.55.0",
+    "ai": "^5.0.60",
     "clsx": "^2.1.1",
+    "framework7-icons": "^5.0.5",
     "konsta": "^5.0.1",
     "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-hook-form": "^7.64.0",
     "react-icons": "^5.5.0",
+    "react-markdown": "^10.1.0",
     "tailwind-merge": "^3.3.1",
     "zod": "^4.1.11",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@clerk/testing": "^1.13.2",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.8.0",
