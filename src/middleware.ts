@@ -8,7 +8,9 @@ const privateRoutes = [
   "/settings",
   "/admin",
   "/alphabet",
+  "/chat",
   "/api/protected",
+  "/api/v1/chat/llm",
 ]
 
 const isPrivateRoute = createRouteMatcher(privateRoutes)

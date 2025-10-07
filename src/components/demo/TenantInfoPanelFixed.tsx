@@ -1,6 +1,6 @@
 "use client"
 
-import { Block, Card } from "konsta/react"
+import { Card } from "konsta/react"
 import { useEffect, useRef, useState } from "react"
 
 type Tenant = { id: string; name: string }

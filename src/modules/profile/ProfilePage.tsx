@@ -10,7 +10,7 @@ export const ProfilePage = () => {
       <BlockTitle>Profile Page</BlockTitle>
       <Block strong inset outline>
         <p>This is the profile page content.</p>
-        {user.isSignedIn ? (
+        {user.isSignedIn ? (  
           <div>
             <p>
               Name: {user.user.firstName} {user.user.lastName}

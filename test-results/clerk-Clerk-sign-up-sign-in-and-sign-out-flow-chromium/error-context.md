@@ -1,55 +1,26 @@
 # Page snapshot
 
 ```yaml
-- generic [ref=e1]:
-    - banner [ref=e2]:
-        - link "Sign In" [ref=e3] [cursor=pointer]:
-            - /url: /sign-in
-        - link "Sign Up" [ref=e4] [cursor=pointer]:
-            - /url: /sign-up
-    - button "Open Next.js Dev Tools" [ref=e10] [cursor=pointer]:
-        - img [ref=e11] [cursor=pointer]
-    - alert [ref=e14]
-    - generic [ref=e16]:
-        - generic [ref=e17]:
-            - generic [ref=e19]:
-                - heading "Create your account" [level=1] [ref=e20]
-                - paragraph [ref=e21]: Welcome! Please fill in the details to get started.
-            - generic [ref=e22]:
-                - button "Sign in with Google Continue with Google" [ref=e25] [cursor=pointer]:
-                    - generic [ref=e26] [cursor=pointer]:
-                        - img "Sign in with Google" [ref=e28] [cursor=pointer]
-                        - generic [ref=e29] [cursor=pointer]: Continue with Google
-                - paragraph [ref=e32]: or
-                - generic [ref=e34]:
-                    - generic [ref=e35]:
-                        - generic [ref=e38]:
-                            - generic [ref=e40]: Email address
-                            - textbox "Email address" [ref=e41]: lv178l@test.com
-                        - generic [ref=e43]:
-                            - generic [ref=e44]:
-                                - generic [ref=e46]: Password
-                                - generic [ref=e47]:
-                                    - textbox "Password" [active] [ref=e48]: k06s8ziA1!
-                                    - button "Show password" [ref=e49] [cursor=pointer]:
-                                        - img [ref=e50] [cursor=pointer]
-                            - paragraph [ref=e54]:
-                                - img [ref=e55]
-                                - text: Your password meets all the necessary requirements.
-                    - button "Continue" [ref=e59] [cursor=pointer]:
-                        - generic [ref=e60] [cursor=pointer]:
-                            - text: Continue
-                            - img [ref=e61] [cursor=pointer]
-        - generic [ref=e63]:
-            - generic [ref=e64]:
-                - generic [ref=e65]: Already have an account?
-                - link "Sign in" [ref=e66] [cursor=pointer]:
-                    - /url: http://localhost:3000/sign-in
-            - generic [ref=e68]:
-                - generic [ref=e70]:
-                    - paragraph [ref=e71]: Secured by
-                    - link "Clerk logo" [ref=e72] [cursor=pointer]:
-                        - /url: https://go.clerk.com/components
-                        - img [ref=e73] [cursor=pointer]
-                - paragraph [ref=e78]: Development mode
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - link "Dashboard" [ref=e6] [cursor=pointer]:
+        - /url: /dashboard
+      - button [ref=e8] [cursor=pointer]:
+        - img [ref=e9] [cursor=pointer]
+    - generic [ref=e13]:
+      - generic [ref=e14]: Welcome to Konsta UI + Next.js!
+      - paragraph [ref=e16]: Here comes my app
+    - generic [ref=e18]:
+      - generic [ref=e20]:
+        - generic [ref=e21]: Menu
+        - button [ref=e23] [cursor=pointer]:
+          - img [ref=e24] [cursor=pointer]
+      - paragraph [ref=e28]:
+        - text: You are not signed in. Please
+        - link "Sign in" [ref=e29] [cursor=pointer]:
+          - button "Sign in" [ref=e30]
+  - button "Open Next.js Dev Tools" [ref=e36] [cursor=pointer]:
+    - img [ref=e37] [cursor=pointer]
+  - alert [ref=e40]
 ```
