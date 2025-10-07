@@ -1,0 +1,48 @@
+{
+  "categories": [
+    {
+      "id": "create",
+      "label": "Create",
+      "icon": "create",
+      "prompts": [
+        "Generate a logo design concept",
+        "Create a business plan outline",
+        "Write a creative story",
+        "Design a color palette"
+      ]
+    },
+    {
+      "id": "explore",
+      "label": "Explore",
+      "icon": "explore",
+      "prompts": [
+        "How does AI work?",
+        "Are black holes real?",
+        "Explain quantum computing",
+        "What is blockchain?"
+      ]
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "icon": "code",
+      "prompts": [
+        "How many Rs are in the word \"strawberry\"?",
+        "Write a sorting algorithm",
+        "Debug my React component",
+        "Optimize SQL query"
+      ]
+    },
+    {
+      "id": "learn",
+      "label": "Learn",
+      "icon": "learn",
+      "prompts": [
+        "What is the meaning of life?",
+        "Teach me about astronomy",
+        "Explain machine learning",
+        "History of the internet"
+      ]
+    }
+  ]
+}
