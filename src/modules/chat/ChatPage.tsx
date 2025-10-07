@@ -29,11 +29,24 @@ interface FileAttachment {
   preview?: string // for images
 }
 
+interface PromptCategory {
+  id: string
+  label: string
+  icon: string
+  prompts: string[]
+}
+
+interface SuggestedPromptsData {
+  categories: PromptCategory[]
+}
+
 export default function ChatPage() {
   const [inputValue, setInputValue] = useState("")
   const [selectedModel, setSelectedModel] = useState("gpt-4-turbo")
   const [sheetOpened, setSheetOpened] = useState(false)
   const [attachments, setAttachments] = useState<FileAttachment[]>([])
+  const [suggestedPrompts, setSuggestedPrompts] = useState<SuggestedPromptsData | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string>("explore")
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [messages, setMessages] = useState<Array<{
@@ -83,6 +96,14 @@ export default function ChatPage() {
           return part.value
         })
     )
+  }, [])
+
+  useEffect(() => {
+    // Fetch suggested prompts
+    fetch("/api/suggested-prompts")
+      .then(res => res.json())
+      .then(data => setSuggestedPrompts(data))
+      .catch(err => console.error("Failed to load suggested prompts:", err))
   }, [])
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -233,6 +254,24 @@ export default function ChatPage() {
   const selectedModelLabel =
     models.find(m => m.value === selectedModel)?.label || "GPT-4 Turbo"
 
+  const handlePromptClick = (prompt: string) => {
+    setInputValue(prompt)
+  }
+
+  const getCategoryIcon = (icon: string) => {
+    const icons: Record<string, string> = {
+      create: "🎨",
+      explore: "📚",
+      code: "</>",
+      learn: "🎓"
+    }
+    return icons[icon] || "💡"
+  }
+
+  const currentCategoryPrompts = suggestedPrompts?.categories.find(
+    cat => cat.id === selectedCategory
+  )?.prompts || []
+
   return (
     <Page className="" colors={{ bgIos: "bg-transparent" }} ref={pageRef}>
       {/* <Navbar title="Messages" data-testid="chat-navbar" /> */}
@@ -249,6 +288,47 @@ export default function ChatPage() {
       </div>
       <Messages>
         <MessagesTitle>{currentDate}</MessagesTitle>
+
+        {/* Show suggested prompts when no messages */}
+        {messages.length === 0 && suggestedPrompts && (
+          <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
+            <h1 className="text-4xl font-bold text-center mb-8 dark:text-white">
+              How can I help you?
+            </h1>
+
+            {/* Category tabs */}
+            <div className="flex gap-2 mb-6 flex-wrap justify-center">
+              {suggestedPrompts.categories.map(category => (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${
+                    selectedCategory === category.id
+                      ? "bg-primary text-white"
+                      : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
+                  }`}
+                >
+                  <span>{getCategoryIcon(category.icon)}</span>
+                  <span className="font-medium">{category.label}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Suggested prompts */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl w-full">
+              {currentCategoryPrompts.map((prompt, index) => (
+                <button
+                  key={index}
+                  onClick={() => handlePromptClick(prompt)}
+                  className="text-left p-4 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700"
+                >
+                  <p className="text-sm dark:text-gray-200">{prompt}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {messages.map((message, index) => {
           // Handle experimental_attachments from user messages
           const attachmentImages = message.experimental_attachments?.filter(
