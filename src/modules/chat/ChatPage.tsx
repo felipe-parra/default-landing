@@ -19,9 +19,7 @@ import {
 } from "konsta/react"
 // @ts-expect-error - framework7-icons/react doesn't have type definitions
 import { CameraFill, ArrowUpCircleFill } from "framework7-icons/react"
-import { MdCameraAlt, MdSend, MdClose } from "react-icons/md"
-import { useChat } from "@ai-sdk/react"
-
+import { MdCameraAlt, MdSend } from "react-icons/md"
 import ReactMarkdown from "react-markdown"
 
 interface FileAttachment {
@@ -38,8 +36,16 @@ export default function ChatPage() {
   const [attachments, setAttachments] = useState<FileAttachment[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // AI SDK useChat hook - uses default /api/chat endpoint
-  const { messages, sendMessage } = useChat()
+  const [messages, setMessages] = useState<Array<{
+    id: string
+    role: "user" | "assistant"
+    content: string
+    experimental_attachments?: Array<{
+      name: string
+      contentType: string
+      url: string
+    }>
+  }>>([])
 
   const pageRef = useRef<HTMLDivElement>(null)
   const initiallyScrolled = useRef(false)
@@ -135,7 +141,7 @@ export default function ChatPage() {
     setAttachments(prev => prev.filter((_, i) => i !== index))
   }
 
-  const handleSendClick = (e: React.FormEvent) => {
+  const handleSendClick = async (e: React.FormEvent) => {
     e.preventDefault()
     if (inputValue.trim().length > 0 || attachments.length > 0) {
       // Build experimental_attachments for AI SDK
@@ -145,15 +151,72 @@ export default function ChatPage() {
         url: a.data
       }))
 
-      sendMessage({
+      // Add user message to the messages array
+      const userMessage = {
+        id: Date.now().toString(),
+        role: "user" as const,
         content: inputValue,
         experimental_attachments,
-      }, {
-        body: { model: selectedModel }
-      })
+      }
 
+      setMessages([...messages, userMessage])
+
+      // Clear input immediately
       setInputValue("")
       setAttachments([])
+
+      // Call API
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: [...messages, userMessage],
+            model: selectedModel
+          })
+        })
+
+        if (!response.ok) {
+          throw new Error("Failed to get response")
+        }
+
+        const reader = response.body?.getReader()
+        const decoder = new TextDecoder()
+        let assistantMessage = ""
+
+        if (reader) {
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+
+            const chunk = decoder.decode(value)
+            assistantMessage += chunk
+
+            // Update messages with streaming response
+            setMessages(prev => {
+              const newMessages = [...prev]
+              const lastMessage = newMessages[newMessages.length - 1]
+
+              if (lastMessage?.role === "assistant") {
+                newMessages[newMessages.length - 1] = {
+                  ...lastMessage,
+                  content: assistantMessage
+                }
+              } else {
+                newMessages.push({
+                  id: (Date.now() + 1).toString(),
+                  role: "assistant",
+                  content: assistantMessage
+                })
+              }
+
+              return newMessages
+            })
+          }
+        }
+      } catch (error) {
+        console.error("Error sending message:", error)
+      }
     }
   }
 

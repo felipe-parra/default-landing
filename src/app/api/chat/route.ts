@@ -24,15 +24,15 @@ export async function POST(req: Request) {
     const selectedModel = model || "gpt-4o"
 
     // Convert messages to the format expected by the AI SDK
-    const formattedMessages = messages.map((msg: any) => {
-      const message: any = {
-        role: msg.role,
-        content: msg.content || ""
+    const formattedMessages = messages.map((msg) => {
+      interface Attachment {
+        contentType?: string
+        url: string
       }
 
       // Handle experimental_attachments (images)
       if (msg.experimental_attachments && msg.experimental_attachments.length > 0) {
-        const content: any[] = []
+        const content: Array<{ type: string; text?: string; image?: string }> = []
 
         // Add text if present
         if (msg.content) {
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
         }
 
         // Add images
-        msg.experimental_attachments.forEach((attachment: any) => {
+        msg.experimental_attachments.forEach((attachment: Attachment) => {
           if (attachment.contentType?.startsWith("image/")) {
             content.push({
               type: "image",
@@ -49,19 +49,24 @@ export async function POST(req: Request) {
           }
         })
 
-        message.content = content
+        return {
+          role: msg.role as "user" | "assistant" | "system",
+          content
+        }
       }
 
-      return message
+      return {
+        role: msg.role as "user" | "assistant" | "system",
+        content: msg.content || ""
+      }
     })
 
     const result = streamText({
       model: openai(selectedModel),
       messages: formattedMessages,
-      maxTokens: 4096,
     })
 
-    return result.toDataStreamResponse()
+    return result.toTextStreamResponse()
   } catch (error) {
     console.error("Error in chat endpoint:", error)
     console.error("Error stack:", error instanceof Error ? error.stack : "No stack trace")
