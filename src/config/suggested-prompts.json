@@ -5,10 +5,22 @@
       "label": "Create",
       "icon": "create",
       "prompts": [
-        "Generate a logo design concept",
-        "Create a business plan outline",
-        "Write a creative story",
-        "Design a color palette"
+        {
+          "text": "Generate a logo design concept",
+          "placeholder": null
+        },
+        {
+          "text": "Create a business plan outline",
+          "placeholder": null
+        },
+        {
+          "text": "Write a creative story",
+          "placeholder": null
+        },
+        {
+          "text": "Design a color palette",
+          "placeholder": null
+        }
       ]
     },
     {
@@ -16,10 +28,22 @@
       "label": "Explore",
       "icon": "explore",
       "prompts": [
-        "How does AI work?",
-        "Are black holes real?",
-        "Explain quantum computing",
-        "What is blockchain?"
+        {
+          "text": "How does AI work?",
+          "placeholder": null
+        },
+        {
+          "text": "Are black holes real?",
+          "placeholder": null
+        },
+        {
+          "text": "Explain quantum computing",
+          "placeholder": null
+        },
+        {
+          "text": "What is blockchain?",
+          "placeholder": null
+        }
       ]
     },
     {
@@ -27,10 +51,22 @@
       "label": "Code",
       "icon": "code",
       "prompts": [
-        "How many Rs are in the word \"strawberry\"?",
-        "Write a sorting algorithm",
-        "Debug my React component",
-        "Optimize SQL query"
+        {
+          "text": "How many Rs are in the word \"strawberry\"?",
+          "placeholder": null
+        },
+        {
+          "text": "Write a sorting algorithm",
+          "placeholder": null
+        },
+        {
+          "text": "Debug my React component",
+          "placeholder": null
+        },
+        {
+          "text": "Optimize SQL query",
+          "placeholder": null
+        }
       ]
     },
     {
@@ -38,10 +74,149 @@
       "label": "Learn",
       "icon": "learn",
       "prompts": [
-        "What is the meaning of life?",
-        "Teach me about astronomy",
-        "Explain machine learning",
-        "History of the internet"
+        {
+          "text": "What is the meaning of life?",
+          "placeholder": null
+        },
+        {
+          "text": "Teach me about astronomy",
+          "placeholder": null
+        },
+        {
+          "text": "Explain machine learning",
+          "placeholder": null
+        },
+        {
+          "text": "History of the internet",
+          "placeholder": null
+        }
+      ]
+    },
+    {
+      "id": "image",
+      "label": "Image",
+      "icon": "image",
+      "prompts": [
+        {
+          "text": "Crea una foto realista de un café humeante en una mesa de madera que esté iluminado por luz natural de la mañana. La escena debe estar ambientada en una cafetería moderna minimalista, iluminada por luz suave de ventana, creando una atmósfera acogedora. Capturada con lente 50mm f/1.4, con énfasis en la textura de la espuma y el vapor. Formato cuadrado 1:1",
+          "placeholder": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085"
+        },
+        {
+          "text": "Crea una ilustración de un astronauta flotando que esté explorando un planeta alienígena colorido. La escena debe estar ambientada en un paisaje extraterrestre con cristales gigantes, iluminada por dos soles brillantes, creando una atmósfera de asombro y descubrimiento. Representada con estilo digital art vibrante, con énfasis en colores neón y detalles de ciencia ficción. Formato horizontal 16:9",
+          "placeholder": "https://images.unsplash.com/photo-1614728423169-3f65fd722b7e"
+        },
+        {
+          "text": "Crea un logo minimalista de una montaña geométrica que esté integrado con tipografía moderna. La escena debe estar ambientada en fondo limpio monocromático, iluminada por sombras sutiles, creando una atmósfera profesional y elegante. Representado con técnica vectorial limpia, con énfasis en líneas precisas y balance negativo. Formato cuadrado 1:1",
+          "placeholder": "https://images.unsplash.com/photo-1626785774573-4b799315345d"
+        },
+        {
+          "text": "Crea una foto de producto de unos audífonos premium que estén flotando sobre mármol negro. La escena debe estar ambientada en estudio fotográfico profesional, iluminada por luz de estudio con reflectores suaves, creando una atmósfera premium y tecnológica. Capturada con macro lens 100mm, con énfasis en detalles metálicos y acabados. Formato vertical 4:5",
+          "placeholder": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
+        },
+        {
+          "text": "Crea una ilustración de cómic de un superhéroe urbano que esté saltando entre edificios. La escena debe estar ambientada en una ciudad futurista de noche, iluminada por luces de neón y relámpagos, creando una atmósfera dramática y dinámica. Representada con estilo comic book con líneas de movimiento, con énfasis en acción y perspectiva forzada. Formato vertical 2:3",
+          "placeholder": "https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe"
+        },
+        {
+          "text": "Crea una foto realista de un bosque de bambú japonés que esté atravesado por un camino de piedra. La escena debe estar ambientada en Kioto al amanecer, iluminada por rayos de sol filtrados entre las hojas, creando una atmósfera zen y serena. Capturada con gran angular 24mm, con énfasis en la profundidad y la luz volumétrica. Formato horizontal 16:9",
+          "placeholder": "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d"
+        },
+        {
+          "text": "Crea un diseño minimalista de un póster tipográfico que esté centrado en una frase motivacional. La escena debe estar ambientada en fondo de color sólido vibrante, iluminada por luz uniforme, creando una atmósfera energética y moderna. Representado con tipografía geométrica bold, con énfasis en jerarquía visual y espacios en blanco. Formato vertical 3:4",
+          "placeholder": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64"
+        },
+        {
+          "text": "Crea una foto de producto de una botella de perfume de lujo que esté rodeada de flores frescas. La escena debe estar ambientada en mármol blanco con pétalos dispersos, iluminada por luz suave difusa, creando una atmósfera elegante y femenina. Capturada con lente 85mm f/1.8, con énfasis en el reflejo del vidrio y texturas florales. Formato cuadrado 1:1",
+          "placeholder": "https://images.unsplash.com/photo-1541643600914-78b084683601"
+        },
+        {
+          "text": "Crea una ilustración digital de un dragón majestuoso que esté posado en un acantilado. La escena debe estar ambientada en montañas épicas con cascadas, iluminada por atardecer dorado dramático, creando una atmósfera mítica y poderosa. Representada con pintura digital fantasy art, con énfasis en escamas detalladas y alas translúcidas. Formato horizontal 21:9",
+          "placeholder": "https://images.unsplash.com/photo-1617791160536-598cf32026fb"
+        },
+        {
+          "text": "Crea una foto realista de una hamburguesa gourmet que esté presentada en tabla de madera rústica. La escena debe estar ambientada en restaurante moderno con fondo desenfocado, iluminada por luz lateral cálida, creando una atmósfera apetitosa y artesanal. Capturada con macro 60mm f/2.8, con énfasis en capas de ingredientes y texturas jugosas. Formato vertical 4:5",
+          "placeholder": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd"
+        },
+        {
+          "text": "Crea un logo geométrico de un león estilizado que esté compuesto por polígonos. La escena debe estar ambientada en fondo degradado sutil, iluminada por sombras geométricas suaves, creando una atmósfera moderna y corporativa. Representado con low poly art style, con énfasis en formas angulares y paleta limitada. Formato cuadrado 1:1",
+          "placeholder": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe"
+        },
+        {
+          "text": "Crea una ilustración infantil de un conejo aventurero que esté explorando un jardín mágico. La escena debe estar ambientada en un mundo fantástico con hongos gigantes, iluminada por luz de luciérnagas brillantes, creando una atmósfera dulce y encantadora. Representada con acuarela digital suave, con énfasis en colores pasteles y texturas tiernas. Formato cuadrado 1:1",
+          "placeholder": "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308"
+        },
+        {
+          "text": "Crea una foto de producto de un reloj de lujo que esté sobre cuero negro premium. La escena debe estar ambientada en set minimalista de estudio, iluminada por luz cenital dramática, creando una atmósfera exclusiva y sofisticada. Capturada con macro tilt-shift, con énfasis en mecanismo visible y materiales nobles. Formato horizontal 16:9",
+          "placeholder": "https://images.unsplash.com/photo-1523275335684-37898b6baf30"
+        },
+        {
+          "text": "Crea una foto realista de olas oceánicas que estén rompiendo en una playa desierta. La escena debe estar ambientada en costa tropical al amanecer, iluminada por luz dorada horizontal, creando una atmósfera tranquila y meditativa. Capturada con larga exposición 30 segundos, con énfasis en movimiento sedoso del agua y textura de arena. Formato panorámico 3:1",
+          "placeholder": "https://images.unsplash.com/photo-1505142468610-359e7d316be0"
+        },
+        {
+          "text": "Crea una ilustración de cómic de una persecución en moto que esté atravesando calles lluviosas. La escena debe estar ambientada en ciudad cyberpunk nocturna, iluminada por anuncios holográficos de neón, creando una atmósfera frenética y noir. Representada con estilo manga dinámico, con énfasis en líneas de velocidad y gotas de lluvia congeladas. Formato horizontal 16:9",
+          "placeholder": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64"
+        },
+        {
+          "text": "Crea un diseño minimalista de un patrón geométrico que esté compuesto por círculos concéntricos. La escena debe estar ambientada en fondo neutro, iluminada por degradados suaves, creando una atmósfera hipnótica y contemporánea. Representado con vectores precisos de dos colores, con énfasis en repetición rítmica y balance. Formato cuadrado 1:1",
+          "placeholder": "https://images.unsplash.com/photo-1557672172-298e090bd0f1"
+        },
+        {
+          "text": "Crea una foto realista de una calle europea antigua que esté decorada con flores en balcones. La escena debe estar ambientada en pueblo mediterráneo en verano, iluminada por luz de tarde dorada, creando una atmósfera romántica y nostálgica. Capturada con lente 35mm f/1.4, con énfasis en arquitectura colorida y detalles de adoquines. Formato vertical 4:5",
+          "placeholder": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963"
+        },
+        {
+          "text": "Crea una ilustración digital de un fénix renaciendo que esté emergiendo de llamas coloridas. La escena debe estar ambientada en cielo crepuscular dramático, iluminada por fuego mágico multicolor, creando una atmósfera épica y transformadora. Representada con arte digital fantástico detallado, con énfasis en plumas brillantes y partículas de fuego. Formato vertical 2:3",
+          "placeholder": "https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d"
+        },
+        {
+          "text": "Crea una foto de producto de zapatillas deportivas que estén suspendidas en el aire. La escena debe estar ambientada en fondo de color sólido vibrante, iluminada por luz de estudio con gradientes, creando una atmósfera dinámica y juvenil. Capturada con flash de alta velocidad congelado, con énfasis en detalles de textura y sombras definidas. Formato cuadrado 1:1",
+          "placeholder": "https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+        },
+        {
+          "text": "Crea un logo circular de un árbol de la vida que esté entrelazado con raíces y ramas. La escena debe estar ambientada en medallón vintage, iluminada por sombras talladas sutiles, creando una atmósfera orgánica y espiritual. Representado con estilo line art detallado, con énfasis en simetría y flujo natural. Formato cuadrado 1:1",
+          "placeholder": "https://images.unsplash.com/photo-1616628188550-808682f3926d"
+        },
+        {
+          "text": "Crea una foto realista de la aurora boreal que esté bailando sobre un lago helado. La escena debe estar ambientada en Islandia en invierno profundo, iluminada por luces del norte verdes y violetas, creando una atmósfera mágica y sobrenatural. Capturada con exposición larga 15 segundos, con énfasis en reflejos en el hielo y estrellas nítidas. Formato horizontal 16:9",
+          "placeholder": "https://images.unsplash.com/photo-1579033461380-adb47c3eb938"
+        },
+        {
+          "text": "Crea una ilustración infantil de una casita del árbol mágica que esté iluminada con luces cálidas. La escena debe estar ambientada en bosque encantado al anochecer, iluminada por ventanas brillantes y luciérnagas, creando una atmósfera acogedora y fantástica. Representada con estilo digital painting suave, con énfasis en detalles acogedores y colores cálidos. Formato horizontal 3:2",
+          "placeholder": "https://images.unsplash.com/photo-1570427968906-5a309bfd7de3"
+        },
+        {
+          "text": "Crea una foto de producto de una copa de vino tinto que esté siendo servida elegantemente. La escena debe estar ambientada en mesa de madera oscura con uvas, iluminada por luz de vela cálida, creando una atmósfera íntima y refinada. Capturada con momento congelado mid-pour, con énfasis en líquido en movimiento y reflejos del vidrio. Formato vertical 4:5",
+          "placeholder": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3"
+        },
+        {
+          "text": "Crea un diseño minimalista de una interfaz de aplicación móvil que esté mostrando dashboard de finanzas. La escena debe estar ambientada en pantalla de smartphone moderna, iluminada por luz de pantalla suave, creando una atmósfera profesional y clean. Representado con UI/UX design flat, con énfasis en tipografía clara y gráficos minimalistas. Formato vertical 9:19.5",
+          "placeholder": "https://images.unsplash.com/photo-1551650975-87deedd944c3"
+        },
+        {
+          "text": "Crea una foto realista de un templo japonés ancestral que esté rodeado de cerezos en flor. La escena debe estar ambientada en Japón durante el sakura, iluminada por luz difusa de primavera, creando una atmósfera pacífica y cultural. Capturada con lente 50mm f/2, con énfasis en pétalos cayendo y arquitectura tradicional. Formato horizontal 16:9",
+          "placeholder": "https://images.unsplash.com/photo-1545569341-9eb8b30979d9"
+        },
+        {
+          "text": "Crea una ilustración de cómic de un samurái enfrentando una tormenta que esté desenvainando su katana. La escena debe estar ambientada en campo de batalla bajo lluvia torrencial, iluminada por relámpagos dramáticos, creando una atmósfera tensa y heroica. Representada con estilo manga japonés tradicional, con énfasis en líneas de acción y expresión facial intensa. Formato vertical 2:3",
+          "placeholder": "https://images.unsplash.com/photo-1578632292335-df3abbb0d586"
+        },
+        {
+          "text": "Crea una foto de producto de chocolates artesanales que estén dispuestos en caja elegante. La escena debe estar ambientada en superficie de seda negra, iluminada por luz suave desde arriba, creando una atmósfera lujosa y tentadora. Capturada con macro 100mm f/2.8, con énfasis en brillo del chocolate y detalles decorativos dorados. Formato cuadrado 1:1",
+          "placeholder": "https://images.unsplash.com/photo-1549007994-cb92caebd54b"
+        },
+        {
+          "text": "Crea una ilustración digital de una ciudad flotante steampunk que esté suspendida entre nubes. La escena debe estar ambientada en cielo de atardecer con engranajes gigantes, iluminada por luz dorada y vapor, creando una atmósfera fantástica y retrofuturista. Representada con concept art detallado, con énfasis en mecanismos victorianos y arquitectura imposible. Formato horizontal 21:9",
+          "placeholder": "https://images.unsplash.com/photo-1563089145-599997674d42"
+        },
+        {
+          "text": "Crea un logo minimalista de ondas de sonido que estén formando una letra M. La escena debe estar ambientada en fondo de gradiente musical, iluminada por brillo sutil, creando una atmósfera tecnológica y creativa. Representado con diseño de líneas fluidas vectoriales, con énfasis en movimiento y ritmo visual. Formato horizontal 16:9",
+          "placeholder": "https://images.unsplash.com/photo-1611339555312-e607c8352fd7"
+        },
+        {
+          "text": "Crea una foto realista de un escritorio de trabajo minimalista que esté organizado perfectamente. La escena debe estar ambientada en home office moderno nórdico, iluminada por luz natural de ventana lateral, creando una atmósfera productiva y zen. Capturada con vista cenital 90 grados, con énfasis en composición simétrica y paleta neutral. Formato cuadrado 1:1",
+          "placeholder": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b"
+        }
       ]
     }
   ]
