@@ -1,5 +1,6 @@
 import { auth } from "@clerk/nextjs/server"
 import { openai } from "@ai-sdk/openai"
+import { google } from "@ai-sdk/google"
 import { streamText } from "ai"
 
 export const runtime = "edge"
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { messages, model } = body
+    const { messages, model, category } = body
 
     if (!messages || !Array.isArray(messages)) {
       return new Response("Invalid messages format", { status: 400 })
@@ -22,6 +23,16 @@ export async function POST(req: Request) {
 
     // Use the selected model or default to gpt-4o (better vision support)
     const selectedModel = model || "gpt-4o"
+
+    // Determine which provider to use based on model name
+    const isGeminiModel = selectedModel.startsWith("gemini")
+    const modelProvider = isGeminiModel ? google(selectedModel) : openai(selectedModel)
+
+    // Add system prompt for image category
+    let systemPrompt = ""
+    if (category === "image") {
+      systemPrompt = "You are an expert image prompt writer and visual creative director. When given an image description request, provide a detailed, vivid, and professional description that could be used as a prompt for AI image generation. Focus on composition, lighting, mood, technical details, and artistic style. Be specific and descriptive."
+    }
 
     // Convert messages to the format expected by the AI SDK
     const formattedMessages = messages.map((msg) => {
@@ -62,8 +73,9 @@ export async function POST(req: Request) {
     })
 
     const result = streamText({
-      model: openai(selectedModel),
+      model: modelProvider,
       messages: formattedMessages,
+      system: systemPrompt || undefined,
     })
 
     return result.toTextStreamResponse()

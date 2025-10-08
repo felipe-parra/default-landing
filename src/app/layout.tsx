@@ -58,13 +58,15 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang={siteInfo.language}>
-        <head>
-          <script
-            async
-            crossOrigin="anonymous"
-            src="//unpkg.com/react-scan/dist/auto.global.js"
-          />
-        </head>
+        {process.env.NODE_ENV === 'development' && (
+          <head>
+            <script
+              async
+              crossOrigin="anonymous"
+              src="https://unpkg.com/react-scan/dist/auto.global.js"
+            />
+          </head>
+        )}
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
