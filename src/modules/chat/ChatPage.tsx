@@ -29,11 +29,16 @@ interface FileAttachment {
   preview?: string // for images
 }
 
+interface PromptItem {
+  text: string
+  placeholder: string | null
+}
+
 interface PromptCategory {
   id: string
   label: string
   icon: string
-  prompts: string[]
+  prompts: PromptItem[]
 }
 
 interface SuggestedPromptsData {
@@ -42,23 +47,26 @@ interface SuggestedPromptsData {
 
 export default function ChatPage() {
   const [inputValue, setInputValue] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState<string>("explore")
   const [selectedModel, setSelectedModel] = useState("gpt-4-turbo")
   const [sheetOpened, setSheetOpened] = useState(false)
   const [attachments, setAttachments] = useState<FileAttachment[]>([])
-  const [suggestedPrompts, setSuggestedPrompts] = useState<SuggestedPromptsData | null>(null)
-  const [selectedCategory, setSelectedCategory] = useState<string>("explore")
+  const [suggestedPrompts, setSuggestedPrompts] =
+    useState<SuggestedPromptsData | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const [messages, setMessages] = useState<Array<{
-    id: string
-    role: "user" | "assistant"
-    content: string
-    experimental_attachments?: Array<{
-      name: string
-      contentType: string
-      url: string
+  const [messages, setMessages] = useState<
+    Array<{
+      id: string
+      role: "user" | "assistant"
+      content: string
+      experimental_attachments?: Array<{
+        name: string
+        contentType: string
+        url: string
+      }>
     }>
-  }>>([])
+  >([])
 
   const pageRef = useRef<HTMLDivElement>(null)
   const initiallyScrolled = useRef(false)
@@ -129,7 +137,7 @@ export default function ChatPage() {
 
       // Read file as base64
       const reader = new FileReader()
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         reader.onload = () => {
           const base64 = reader.result as string
           const attachment: FileAttachment = {
@@ -169,7 +177,7 @@ export default function ChatPage() {
       const experimental_attachments = attachments.map(a => ({
         name: a.name,
         contentType: a.type,
-        url: a.data
+        url: a.data,
       }))
 
       // Add user message to the messages array
@@ -186,57 +194,108 @@ export default function ChatPage() {
       setInputValue("")
       setAttachments([])
 
+      // Check if we should generate an image
+      const isImageGeneration =
+        selectedCategory === "image" && selectedModel.startsWith("imagen-")
+
       // Call API
       try {
-        const response = await fetch("/api/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            messages: [...messages, userMessage],
-            model: selectedModel
+        if (isImageGeneration) {
+          // Generate image
+          const response = await fetch("/api/generate-image", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              prompt: inputValue,
+              model: selectedModel,
+              aspectRatio: "16:9",
+            }),
           })
-        })
 
-        if (!response.ok) {
-          throw new Error("Failed to get response")
-        }
+          if (!response.ok) {
+            throw new Error("Failed to generate image")
+          }
 
-        const reader = response.body?.getReader()
-        const decoder = new TextDecoder()
-        let assistantMessage = ""
+          const data = await response.json()
 
-        if (reader) {
-          while (true) {
-            const { done, value } = await reader.read()
-            if (done) break
+          // Add assistant message with generated image
+          setMessages(prev => [
+            ...prev,
+            {
+              id: (Date.now() + 1).toString(),
+              role: "assistant",
+              content: "",
+              experimental_attachments: [
+                {
+                  name: "generated-image.png",
+                  contentType: "image/png",
+                  url: `data:image/png;base64,${data.image}`,
+                },
+              ],
+            },
+          ])
+        } else {
+          // Regular chat
+          const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              messages: [...messages, userMessage],
+              model: selectedModel,
+              category: selectedCategory,
+            }),
+          })
 
-            const chunk = decoder.decode(value)
-            assistantMessage += chunk
+          if (!response.ok) {
+            throw new Error("Failed to get response")
+          }
 
-            // Update messages with streaming response
-            setMessages(prev => {
-              const newMessages = [...prev]
-              const lastMessage = newMessages[newMessages.length - 1]
+          const reader = response.body?.getReader()
+          const decoder = new TextDecoder()
+          let assistantMessage = ""
 
-              if (lastMessage?.role === "assistant") {
-                newMessages[newMessages.length - 1] = {
-                  ...lastMessage,
-                  content: assistantMessage
+          if (reader) {
+            while (true) {
+              const { done, value } = await reader.read()
+              if (done) break
+
+              const chunk = decoder.decode(value)
+              assistantMessage += chunk
+
+              // Update messages with streaming response
+              setMessages(prev => {
+                const newMessages = [...prev]
+                const lastMessage = newMessages[newMessages.length - 1]
+
+                if (lastMessage?.role === "assistant") {
+                  newMessages[newMessages.length - 1] = {
+                    ...lastMessage,
+                    content: assistantMessage,
+                  }
+                } else {
+                  newMessages.push({
+                    id: (Date.now() + 1).toString(),
+                    role: "assistant",
+                    content: assistantMessage,
+                  })
                 }
-              } else {
-                newMessages.push({
-                  id: (Date.now() + 1).toString(),
-                  role: "assistant",
-                  content: assistantMessage
-                })
-              }
 
-              return newMessages
-            })
+                return newMessages
+              })
+            }
           }
         }
       } catch (error) {
         console.error("Error sending message:", error)
+        // Add error message to chat
+        setMessages(prev => [
+          ...prev,
+          {
+            id: (Date.now() + 1).toString(),
+            role: "assistant",
+            content: `Error: ${error instanceof Error ? error.message : "Failed to process request"}`,
+          },
+        ])
       }
     }
   }
@@ -244,15 +303,24 @@ export default function ChatPage() {
   const inputOpacity = inputValue || attachments.length > 0 ? 1 : 0.3
   const isClickable = inputValue.trim().length > 0 || attachments.length > 0
 
-  const models = [
+  const textModels = [
     { value: "gpt-4-turbo", label: "GPT-4 Turbo" },
     { value: "gpt-4o", label: "GPT-4o" },
     { value: "gpt-4o-mini", label: "GPT-4o Mini" },
     { value: "gpt-3.5-turbo", label: "GPT-3.5 Turbo" },
   ]
 
+  const imageModels = [
+    { value: "imagen-3.0-generate-002", label: "Imagen 3 (Genera Imágenes)" },
+  ]
+
+  const models = selectedCategory === "image" ? imageModels : textModels
+
   const selectedModelLabel =
-    models.find(m => m.value === selectedModel)?.label || "GPT-4 Turbo"
+    models.find(m => m.value === selectedModel)?.label ||
+    (selectedCategory === "image"
+      ? "Imagen 3 (Genera Imágenes)"
+      : "GPT-4 Turbo")
 
   const handlePromptClick = (prompt: string) => {
     setInputValue(prompt)
@@ -263,14 +331,31 @@ export default function ChatPage() {
       create: "🎨",
       explore: "📚",
       code: "</>",
-      learn: "🎓"
+      learn: "🎓",
+      image: "🖼️",
     }
     return icons[icon] || "💡"
   }
 
-  const currentCategoryPrompts = suggestedPrompts?.categories.find(
-    cat => cat.id === selectedCategory
-  )?.prompts || []
+  const currentCategoryPrompts =
+    suggestedPrompts?.categories.find(cat => cat.id === selectedCategory)
+      ?.prompts || []
+
+  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0)
+
+  // Reset carousel index when category changes
+  useEffect(() => {
+    setCurrentCarouselIndex(0)
+  }, [selectedCategory])
+
+  // Update model when category changes
+  useEffect(() => {
+    if (selectedCategory === "image") {
+      setSelectedModel("imagen-3.0-generate-002")
+    } else {
+      setSelectedModel("gpt-4-turbo")
+    }
+  }, [selectedCategory])
 
   return (
     <Page className="" colors={{ bgIos: "bg-transparent" }} ref={pageRef}>
@@ -315,24 +400,104 @@ export default function ChatPage() {
             </div>
 
             {/* Suggested prompts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl w-full">
-              {currentCategoryPrompts.map((prompt, index) => (
+            {selectedCategory === "image" ? (
+              <div className="max-w-4xl w-full">
+                {/* Carousel */}
+                <div className="relative mb-6 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-800">
+                  <div className="aspect-video relative">
+                    {currentCategoryPrompts[currentCarouselIndex]
+                      ?.placeholder && (
+                      <img
+                        src={
+                          currentCategoryPrompts[currentCarouselIndex]
+                            .placeholder!
+                        }
+                        alt="Example"
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+
+                    {/* Navigation arrows */}
+                    {currentCategoryPrompts.length > 1 && (
+                      <>
+                        <button
+                          onClick={() =>
+                            setCurrentCarouselIndex(prev =>
+                              prev === 0
+                                ? currentCategoryPrompts.length - 1
+                                : prev - 1
+                            )
+                          }
+                          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-colors"
+                        >
+                          ←
+                        </button>
+                        <button
+                          onClick={() =>
+                            setCurrentCarouselIndex(prev =>
+                              prev === currentCategoryPrompts.length - 1
+                                ? 0
+                                : prev + 1
+                            )
+                          }
+                          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-colors"
+                        >
+                          →
+                        </button>
+                      </>
+                    )}
+
+                    {/* Indicators */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                      {currentCategoryPrompts.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentCarouselIndex(index)}
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            index === currentCarouselIndex
+                              ? "bg-white w-6"
+                              : "bg-white/50 hover:bg-white/70"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Prompt text */}
                 <button
-                  key={index}
-                  onClick={() => handlePromptClick(prompt)}
-                  className="text-left p-4 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700"
+                  onClick={() =>
+                    handlePromptClick(
+                      currentCategoryPrompts[currentCarouselIndex]?.text || ""
+                    )
+                  }
+                  className="w-full text-left p-6 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700"
                 >
-                  <p className="text-sm dark:text-gray-200">{prompt}</p>
+                  <p className="text-sm dark:text-gray-200 leading-relaxed">
+                    {currentCategoryPrompts[currentCarouselIndex]?.text}
+                  </p>
                 </button>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl w-full">
+                {currentCategoryPrompts.map((prompt, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handlePromptClick(prompt.text)}
+                    className="text-left p-4 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700"
+                  >
+                    <p className="text-sm dark:text-gray-200">{prompt.text}</p>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
         {messages.map((message, index) => {
           // Handle experimental_attachments from user messages
           const attachmentImages = message.experimental_attachments?.filter(
-            (att) => att.contentType?.startsWith("image/")
+            att => att.contentType?.startsWith("image/")
           )
 
           return (
@@ -354,7 +519,9 @@ export default function ChatPage() {
                       ))}
                     </div>
                   )}
-                  {message.content && <ReactMarkdown>{message.content}</ReactMarkdown>}
+                  {message.content && (
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                  )}
                 </div>
               }
               avatar={
@@ -415,10 +582,7 @@ export default function ChatPage() {
         onInput={e => setInputValue(e.target.value)}
         left={
           <ToolbarPane className="ios:h-10">
-            <Link
-              onClick={() => fileInputRef.current?.click()}
-              iconOnly
-            >
+            <Link onClick={() => fileInputRef.current?.click()} iconOnly>
               <Icon
                 ios={<CameraFill className="w-5 h-5" />}
                 material={
